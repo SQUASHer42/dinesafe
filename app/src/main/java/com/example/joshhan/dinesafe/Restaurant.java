@@ -7,14 +7,14 @@ public class Restaurant {
     private String address;
     private String status;
     private int minimuminspectionsperyear;
-    private ArrayList<Inspection> inspections;
 
-    public Restaurant(int a, String b, String c, String d, String e, int f, ArrayList<Inspection> g){
+    public Restaurant(int a, String b, String c, String d, String e, int f) {
         id = a;
         name = b;
         type = c;
         address = d;
         status = e;
         minimuminspectionsperyear = f;
-        inspections = g;
+
     }
+}

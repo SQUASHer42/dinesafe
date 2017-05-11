@@ -1,8 +1,11 @@
 package com.example.joshhan.dinesafe;
 
-import org.w3c.dom.*;
-import javax.xml.parsers.*;
-import java.io.*;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.DocumentBuilder;
+import org.w3c.dom.Document;
+
+import java.io.File;
+
 
 public class Parser {
     DocumentBuilderFactory factory;
@@ -10,16 +13,23 @@ public class Parser {
     Document doc;
 
     public Parser() {
-        factory = DocumentBuilderFactory.newInstance();
-        builder = facotry.newDocumentBuilder();
+        try{
+            factory = DocumentBuilderFactory.newInstance();
+            builder = factory.newDocumentBuilder();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+
 
     }
 
-    public void createFile() {
-        StringBuilder xmlStringBuilder = new StringBuilder();
-        xmlStringBuilder.append("<?xml version="1.0"?> <class> </class>");
-        ByteArrayInputStream input =  new ByteArrayInputStream(
-                xmlStringBuilder.toString().getBytes("UTF-8"));
-        doc = builder.parse(input);
+    public void createFile(File file) {
+        try{
+            doc = builder.parse(file);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
     }
 }
