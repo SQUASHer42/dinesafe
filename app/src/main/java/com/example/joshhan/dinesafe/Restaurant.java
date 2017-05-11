@@ -1,3 +1,5 @@
+package com.example.joshhan.dinesafe;
+
 public class Restaurant {
     private int id;
     private String name;
