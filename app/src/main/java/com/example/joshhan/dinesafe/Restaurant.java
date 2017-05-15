@@ -17,4 +17,10 @@ public class Restaurant {
         minimuminspectionsperyear = f;
 
     }
+
+    public String getName() {
+        return name;
+    }
+
+
 }

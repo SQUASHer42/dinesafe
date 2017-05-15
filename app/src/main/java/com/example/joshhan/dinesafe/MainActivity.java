@@ -16,16 +16,23 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        File file = new File("dinesafe.xml");
-        Parser parser = new Parser();
+        File file = new File(getResources().getValue(R.values.test.xml));
+        System.out.println(file.exists());
+        /*Parser parser = new Parser();
         parser.createFile(file);
+        parser.doc.getDocumentElement().normalize();
         NodeList nList = parser.doc.getElementsByTagName("ROW");
 
         Node example = nList.item(0);
         Element e = (Element) nList;
-        Restaurant restaurant = new Restaurant(Integer.parseInt(e.getAttribute("ROW_ID")), e.getAttribute("ESTABLISHMENT_NAME"),
-                e.getAttribute("ESTABLISHMENTTYPE"), e.getAttribute("ESTABLISHMENT_ADDRESS"), e.getAttribute("ESTABLISHMENT_STATUS"),
-                Integer.parseInt(e.getAttribute("MINIMUM_INSPECTIONS_PERYEAR")));
-
+        /*Restaurant restaurant = new Restaurant(
+                Integer.parseInt(e.getElementsByTagName("ROW_ID").item(0).getTextContent()),
+                e.getElementsByTagName("ESTABLISHMENT_NAME").item(0).getTextContent(),
+                e.getElementsByTagName("ESTABLISHMENTTYPE").item(0).getTextContent(),
+                e.getElementsByTagName("ESTABLISHMENT_ADDRESS").item(0).getTextContent(),
+                e.getElementsByTagName("ESTABLISHMENT_STATUS").item(0).getTextContent(),
+                Integer.parseInt(e.getElementsByTagName("MINIMUM_INSPECTIONS_PERYEAR").item(0).getTextContent()));
+        System.out.println(restaurant.getName());
+        */
     }
 }
