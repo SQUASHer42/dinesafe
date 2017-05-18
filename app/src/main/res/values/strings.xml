@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">DineSafe</string>
+    <string name="google_android_map_api_key">AIzaSyAtZHKHP8leBym2E25Sq6uHwn8qeaeLu30</string>
 </resources>
