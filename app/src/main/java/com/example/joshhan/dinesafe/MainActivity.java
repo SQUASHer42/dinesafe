@@ -139,6 +139,41 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
+        try{
+            Location lastLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
+            if (lastLocation != null) {
+                Log.i(TAG, String.valueOf(lastLocation.getLatitude()));
+                TextView view = (TextView) findViewById(R.id.coordinates);
+                view.setText(String.valueOf(lastLocation.getLatitude()) + ", " + String.valueOf(lastLocation.getLongitude()));
+
+                LatLng userLocation = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
+                SupportMapFragment mapFragment = (SupportMapFragment)getSupportFragmentManager().findFragmentById(R.id.map);
+                GoogleMap map = mapFragment.getMap();
+                map.addMarker(new MarkerOptions().position(userLocation).title("Where you are"));
+                map.moveCamera(CameraUpdateFactory.newLatLng(userLocation));
+
+            }
+            else {
+                locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+                criteria = new Criteria();
+                String bestProvider = String.valueOf(locationManager.getBestProvider(criteria, true));
+                locationManager.requestLocationUpdates(bestProvider, 1000, 0, this);
+                lastLocation = locationManager.getLastKnownLocation(bestProvider);
+                Log.i(TAG, String.valueOf(lastLocation.getLatitude()));
+                TextView view = (TextView) findViewById(R.id.coordinates);
+                view.setText(String.valueOf(lastLocation.getLatitude()) + ", " + String.valueOf(lastLocation.getLongitude()));
+
+                LatLng userLocation = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
+                SupportMapFragment mapFragment = (SupportMapFragment)getSupportFragmentManager().findFragmentById(R.id.map);
+                GoogleMap map = mapFragment.getMap();
+                map.addMarker(new MarkerOptions().position(userLocation).title("Where you are"));
+                map.moveCamera(CameraUpdateFactory.newLatLng(userLocation));
+
+            }
+        }
+        catch (SecurityException e){
+            e.printStackTrace();
+        }
 
     }
 
