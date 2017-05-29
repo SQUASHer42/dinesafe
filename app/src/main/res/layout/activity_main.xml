@@ -21,8 +21,16 @@
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="400sp"
         tools:context="com.example.mapwithmarker.MapsMarkerActivity" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="@string/test"
+        android:textColor="@color/colorPrimaryDark"
+        android:id="@+id/coordinates"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -36,7 +44,8 @@
             <TextView
                 android:id="@+id/xml"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:visibility="visible" />
 
             <SearchView
                 android:layout_width="match_parent"
