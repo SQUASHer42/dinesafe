@@ -129,15 +129,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == R.id.search){
-            Intent searchIntent = new Intent(this, Search.class);
-            startActivity(searchIntent);
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
     public void onConnected(@Nullable Bundle bundle) {
         try{
             Location lastLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
