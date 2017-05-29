@@ -120,12 +120,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         SearchManager searchManager =
                 (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        MenuItem menuItem = menu.findItem(R.id.search);
         SearchView searchView =
-                (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.search));
-        /*searchView.setSearchableInfo(
+                (SearchView) MenuItemCompat.getActionView(menuItem);
+        searchView.setSearchableInfo(
                 searchManager.getSearchableInfo(new ComponentName(getApplicationContext(), Search.class)));
-        */
-        return super.onCreateOptionsMenu(menu);
+        return true;
     }
 
     @Override
