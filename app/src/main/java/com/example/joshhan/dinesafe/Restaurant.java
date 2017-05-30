@@ -66,6 +66,8 @@ public class Restaurant {
         this.minimuminspectionsperyear = minimuminspectionsperyear;
     }
 
+
+
     @Override
     public String toString() {
         return "Restaurant{" +
