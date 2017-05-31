@@ -35,8 +35,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private GoogleApiClient googleApiClient;
     private LocationRequest locationRequest;
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
-    private final String user = "alainlou";
-    private final String password = "'hEf=}4kC6cwGK";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             googleApiClient = new GoogleApiClient.Builder(this).addConnectionCallbacks(this).addOnConnectionFailedListener(this).addApi(LocationServices.API).build();
         locationRequest = LocationRequest.create().setPriority(locationRequest.PRIORITY_HIGH_ACCURACY).setInterval(10000).setFastestInterval(1000);
 
-        CloudantClient cloudantClient = ClientBuilder.account(user).username(user).password(password).build();
+        CloudantClient cloudantClient = ClientBuilder.account("alainlou").username("alainlou").password("alainlou").build();
 
         new CloudantHandler(cloudantClient, "dinesafe");
     }
@@ -97,6 +95,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
             else {
                 LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
+                //handleLocation(LocationServices.FusedLocationApi.getLastLocation(googleApiClient));
+                lastLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);//TODO handle exception when there isn't a lastLocation --> you have to start the location thing yourself
                 handleLocation(lastLocation);
             }
         }
