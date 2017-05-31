@@ -109,6 +109,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
             else {
                 LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
+                //handleLocation(LocationServices.FusedLocationApi.getLastLocation(googleApiClient));
+                lastLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);//TODO handle exception when there isn't a lastLocation --> you have to start the location thing yourself
                 handleLocation(lastLocation);
             }
         }
