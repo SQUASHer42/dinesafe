@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.cloudant.client.api.ClientBuilder;
 import com.cloudant.client.api.CloudantClient;
+import com.cloudant.client.api.Database;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -29,6 +30,9 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 
+import java.io.FileInputStream;
+import java.util.Properties;
+
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener{
 
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -36,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private LocationRequest locationRequest;
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
     private final String user = "alainlou";
-    private final String password = "'hEf=}4kC6cwGK";
+    private final String password = "alainlou";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,9 +54,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             googleApiClient = new GoogleApiClient.Builder(this).addConnectionCallbacks(this).addOnConnectionFailedListener(this).addApi(LocationServices.API).build();
         locationRequest = LocationRequest.create().setPriority(locationRequest.PRIORITY_HIGH_ACCURACY).setInterval(10000).setFastestInterval(1000);
 
-        CloudantClient cloudantClient = ClientBuilder.account(user).username(user).password(password).build();
+        Properties props = new Properties();
+        try {
+            props.load(new FileInputStream("cloudant.properties"));
+        }catch(Exception e){
+            e.printStackTrace();
+        }
 
-        new CloudantHandler(cloudantClient, "dinesafe");
+        CloudantClient cloudantClient = ClientBuilder.account(user).username(user).password(password).build();
+        Database db = cloudantClient.database(props.getProperty("dinesafe"), false);
+
+        //new CloudantHandler(cloudantClient, "dinesafe");
     }
 
     @Override
