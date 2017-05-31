@@ -1,13 +1,16 @@
 package com.example.joshhan.dinesafe;
 
+import android.Manifest;
 import android.app.SearchManager;
 import android.content.ComponentName;
 import android.content.Context;
 
 import android.content.IntentSender;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -33,14 +36,13 @@ import com.google.android.gms.maps.SupportMapFragment;
 import java.io.FileInputStream;
 import java.util.Properties;
 
-public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener{
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private GoogleApiClient googleApiClient;
     private LocationRequest locationRequest;
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
-    private final String user = "alainlou";
-    private final String password = "alainlou";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,22 +52,39 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        if(googleApiClient == null)
+        if (googleApiClient == null)
             googleApiClient = new GoogleApiClient.Builder(this).addConnectionCallbacks(this).addOnConnectionFailedListener(this).addApi(LocationServices.API).build();
         locationRequest = LocationRequest.create().setPriority(locationRequest.PRIORITY_HIGH_ACCURACY).setInterval(10000).setFastestInterval(1000);
 
-        Properties props = new Properties();
-        try {
-            props.load(new FileInputStream("cloudant.properties"));
-        }catch(Exception e){
-            e.printStackTrace();
+        //TODO Fix this
+        /**
+        //if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
         }
+        LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
+        **/
 
-        CloudantClient cloudantClient = ClientBuilder.account(user).username(user).password(password).build();
-        Database db = cloudantClient.database(props.getProperty("dinesafe"), false);
+        //TODO consider initializing locationmanagerthingy here
+
+        new CloudantHandler().execute();
 
         //new CloudantHandler(cloudantClient, "dinesafe");
+        TextView view = (TextView)findViewById(R.id.coordinates);
+        //view.setText(r.toString());
+
+        Log.d(TAG, "STUPID");
+
+        //view.setText(String.valueOf(db.getClass()));
     }
+
+
 
     @Override
     public void onLocationChanged(Location location) {

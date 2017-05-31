@@ -3,10 +3,19 @@ package com.example.joshhan.dinesafe;
 import android.app.Activity;
 import android.app.ListActivity;
 import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
+
+import java.util.ArrayList;
 
 //import java.io.InputStream;
 
@@ -17,7 +26,7 @@ public class Search extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-        handleIntent(getIntent());
+        //handleIntent(getIntent());
     }
 
     @Override
@@ -29,20 +38,18 @@ public class Search extends Activity {
     private void handleIntent(Intent intent){
         if(Intent.ACTION_SEARCH.equals(intent.getAction())){
             String query = intent.getStringExtra(SearchManager.QUERY);
-            System.out.println(query);
+            //Review r = (Review) new CloudantHandler().execute(query);
+
+
+            LinearLayout ll = (LinearLayout)findViewById(R.id.results);
+            TextView v = new TextView(this.getApplicationContext());
+            ArrayList<View> results = new ArrayList<View>();
+            v.setText("a;sdlkfja;sldkfja;sdfkj");
+            v.setTextColor(Color.BLACK);
+            results.add(v);
+            ll.addView(results.get(0));
         }
-        //getRestaurant();
+
     }
 
-    /*private void getRestaurant(){
-        try{
-            InputStream is = getResources().openRawResource(R.raw.test);
-            Parser parser = new Parser();
-            parser.saxParser.parse(is, parser.handler);
-
-            System.out.println("Restaurant" + parser.restaurant.toString());
-            //textView.setText(parser.restaurant.toString());
-        }
-        catch(Exception e){e.printStackTrace();}
-    }*/
 }

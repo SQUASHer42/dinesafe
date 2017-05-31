@@ -49,4 +49,23 @@ public class Review {
         courtOutcome = l;
         amountFined = m;
     }
+
+    @Override
+    public String toString() {
+        return "Review{" +
+                "inspectionID=" + inspectionID +
+                ", establishmentID=" + establishmentID +
+                ", name='" + name + '\'' +
+                ", type='" + type + '\'' +
+                ", address='" + address + '\'' +
+                ", status='" + status + '\'' +
+                ", minimumInspectionsPerYear=" + minimumInspectionsPerYear +
+                ", infractionDetails='" + infractionDetails + '\'' +
+                ", inspectionDate='" + inspectionDate + '\'' +
+                ", severity='" + severity + '\'' +
+                ", action='" + action + '\'' +
+                ", courtOutcome='" + courtOutcome + '\'' +
+                ", amountFined=" + amountFined +
+                '}';
+    }
 }
