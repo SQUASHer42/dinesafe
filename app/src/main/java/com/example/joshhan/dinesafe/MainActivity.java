@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         //TODO consider initializing locationmanagerthingy here
 
-        new CloudantHandler().execute();
+        //new CloudantHandler().execute();
 
         //new CloudantHandler(cloudantClient, "dinesafe");
         TextView view = (TextView)findViewById(R.id.coordinates);
