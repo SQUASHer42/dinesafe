@@ -31,29 +31,31 @@ public class CloudantHandler extends AsyncTask<String, Void, List<Review>>{
     }
 
     protected List<Review> doInBackground(String... queries) {
+        Log.i(TAG, queries[0]);
         try {
             CloudantClient cloudantClient = ClientBuilder.account(user).username(user).password(password).build();
             Database db = cloudantClient.database("dinesafe", false);
-            String selector = String.format("\"selector\": { \"establishmentID\": {\"$eq\": %s}}", queries[0]);
 
+            String selector = String.format("\"selector\": { \"name\": {\"$eq\": \"%s\"}}", queries[0].toUpperCase());
+            Log.i(TAG, selector);
             List<Review> r = db.findByIndex(selector, Review.class);
             return r;
         }
         catch(NoDocumentException nde) {
             Log.e(TAG, nde.toString());
             //Log.d(TAG, "It didn't work.");
-
+            return null;
         }
         catch(Exception e){
             Log.e(TAG, e.toString());
-            //Log.d(TAG, "nooooo");
+            Log.d(TAG, "nooooo");
+            return null;
         }
-        return null;
+
     }
 
     protected void onPostExecute(List<Review> r) {
         //Log.i(TAG, r.toString()+"");
         delegate.processFinish(r);
-
     }
 }

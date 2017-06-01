@@ -42,7 +42,7 @@ public class Search extends Activity {
     private void handleIntent(Intent intent){
         if(Intent.ACTION_SEARCH.equals(intent.getAction())){
             String query = intent.getStringExtra(SearchManager.QUERY);
-            //Log.i(Search.class.getSimpleName(), query);
+            Log.i(Search.class.getSimpleName(), query);
             new CloudantHandler(new AsyncResponse() {
                 @Override
                 public void processFinish(List<Review> output) {
