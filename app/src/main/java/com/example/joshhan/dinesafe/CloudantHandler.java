@@ -20,7 +20,7 @@ import java.util.List;
  */
 
 public class CloudantHandler extends AsyncTask<String, Void, List<Review>>{
-        private Exception e;
+    private Exception e;
     private final String user = "alainlou";
     private final String password = "alainlou";
     private static final String TAG = CloudantHandler.class.getSimpleName();
@@ -34,10 +34,11 @@ public class CloudantHandler extends AsyncTask<String, Void, List<Review>>{
         Log.i(TAG, queries[0]);
         try {
             CloudantClient cloudantClient = ClientBuilder.account(user).username(user).password(password).build();
-            Database db = cloudantClient.database("dinesafe", false);
+            Database db = cloudantClient.database("withcoordinates", false);
 
             String selector = String.format("\"selector\": { \"name\": {\"$eq\": \"%s\"}}", queries[0].toUpperCase());
             Log.i(TAG, selector);
+
             List<Review> r = db.findByIndex(selector, Review.class);
             return r;
         }
