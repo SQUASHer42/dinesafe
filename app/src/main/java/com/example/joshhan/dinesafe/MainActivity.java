@@ -180,7 +180,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onLocationChanged(Location location) {
-        handleLocation(location, "You are here");
+        if(notIntent)
+            handleLocation(location, "You are here");
     }
 
     protected void onStart() {

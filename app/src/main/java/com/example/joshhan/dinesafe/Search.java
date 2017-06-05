@@ -19,22 +19,25 @@ import java.util.List;
 
 
 public class Search extends Activity {
+    String TAG = Search.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
-
-        //handleIntent(getIntent());
+        Log.i(TAG, "Search service started");
+        handleIntent(getIntent());
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
+        Log.i(TAG, "STUPIIDDKKSJDH:LAKSJD");
         super.onNewIntent(intent);
         handleIntent(intent);
     }
 
     private void handleIntent(Intent intent){
+        Log.i(TAG, ":LAKSKJDHFGJKSKJD");
         if(Intent.ACTION_SEARCH.equals(intent.getAction())){
             String query = intent.getStringExtra(SearchManager.QUERY);
             Log.i(Search.class.getSimpleName(), query);
@@ -89,6 +92,7 @@ public class Search extends Activity {
                     }
                 }
             }).execute(query);
+            Log.i(TAG, "query is running");
         }
 
     }
