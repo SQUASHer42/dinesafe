@@ -102,13 +102,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         pass.setText(intent.getStringExtra("status"));
 
         if(intent.getStringExtra("status").toUpperCase().equals("PASS")){
-            pass.setBackground(getDrawable(R.drawable.pass));
+            pass.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.pass));
         }
         if(intent.getStringExtra("status").toUpperCase().equals("CONDITIONAL PASS")){
-            pass.setBackground(getDrawable(R.drawable.conditional));
+            pass.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.conditional));
         }
         if(intent.getStringExtra("status").toUpperCase().equals("CLOSED")){
-            pass.setBackground(getDrawable(R.drawable.closed));
+            pass.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.closed));
         }
 
 
@@ -131,17 +131,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 v.setTextColor(Color.BLACK);
                 try {
                     if (u.getSeverity().toCharArray()[0] == 'M')
-                        v.setBackground(getDrawable(R.drawable.pass));
+                        v.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.pass));
                     else if (u.getSeverity().toCharArray()[0] == 'S')
-                        v.setBackground(getDrawable(R.drawable.closed));
+                        v.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.closed));
                     else if (u.getSeverity().toCharArray()[0] == 'N')
-                        v.setBackground(getDrawable(R.drawable.grey));
+                        v.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.grey));
                     else{
-                        v.setBackground(getDrawable(R.drawable.back));
+                        v.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.back));
                     }
                 }
                 catch(Exception e) {
-                    v.setBackground(getDrawable(R.drawable.back));
+                    v.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.back));
                 }
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT,
