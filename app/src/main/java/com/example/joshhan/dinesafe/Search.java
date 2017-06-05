@@ -40,14 +40,14 @@ public class Search extends Activity {
             Log.i(Search.class.getSimpleName(), query);
             new CloudantHandler(new AsyncResponse() {
                 @Override
-                public void processFinish(List<Review> output) {
+                public void processFinish(List<Restaurant> output) {
                     //Log.i(Search.class.getSimpleName(), "hey");
                     LinearLayout ll = (LinearLayout)findViewById(R.id.results);
                     ArrayList<View> results = new ArrayList<View>();
 
                     if(output!=null){
                         for(int i = 0; i < output.size();i++){
-                            final Review review = output.get(i);
+                            final Restaurant review = output.get(i);
                             Log.d(Search.class.getSimpleName(), review.toString());
                             //message=message+review.toString();
                             final TextView v = new TextView(Search.this);
@@ -64,9 +64,8 @@ public class Search extends Activity {
                                     intent.putExtra("name", review.getName());
                                     intent.putExtra("latitude", review.getLatitude());
                                     intent.putExtra("longitude", review.getLongitude());
-                                    intent.putExtra("comments", review.getComments());
                                     intent.putExtra("status", review.getStatus());
-                                    intent.putExtra("severity", review.getSeverity());
+                                    intent.putExtra("reviews", review.getReviews());
                                     startActivity(intent);
                                 }
                             };

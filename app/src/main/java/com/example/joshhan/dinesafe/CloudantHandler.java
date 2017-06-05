@@ -19,7 +19,7 @@ import java.util.List;
  * Created by panda on 2017-05-31.
  */
 
-public class CloudantHandler extends AsyncTask<String, Void, List<Review>>{
+public class CloudantHandler extends AsyncTask<String, Void, List<Restaurant>>{
     private Exception e;
     private final String user = "alainlou";
     private final String password = "alainlou";
@@ -30,16 +30,16 @@ public class CloudantHandler extends AsyncTask<String, Void, List<Review>>{
         this.delegate = delegate;
     }
 
-    protected List<Review> doInBackground(String... queries) {
+    protected List<Restaurant> doInBackground(String... queries) {
         Log.i(TAG, queries[0]);
         try {
             CloudantClient cloudantClient = ClientBuilder.account(user).username(user).password(password).build();
-            Database db = cloudantClient.database("withcoordinates", false);
+            Database db = cloudantClient.database("final", false);
 
             String selector = String.format("\"selector\": { \"name\": {\"$eq\": \"%s\"}}", queries[0].toUpperCase());
             Log.i(TAG, selector);
 
-            List<Review> r = db.findByIndex(selector, Review.class);
+            List<Restaurant> r = db.findByIndex(selector, Restaurant.class);
             return r;
         }
         catch(NoDocumentException nde) {
@@ -55,7 +55,7 @@ public class CloudantHandler extends AsyncTask<String, Void, List<Review>>{
 
     }
 
-    protected void onPostExecute(List<Review> r) {
+    protected void onPostExecute(List<Restaurant> r) {
         //Log.i(TAG, r.toString()+"");
         delegate.processFinish(r);
     }

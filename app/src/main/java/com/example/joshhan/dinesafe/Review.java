@@ -94,9 +94,10 @@ public class Review {
     }
 
     public String getComments(){
-        return inspectionDate + ": " + infractionDetails + " " +
-                "\n" + "Action: " + action +
-                "\n" + "Fined: $" + String.valueOf(amountFined);
+        return inspectionDate + ": " +
+                "\n Problem: " + infractionDetails + " " +
+                "\n Action: " + action +
+                "\n Fined: $" + String.valueOf(amountFined);
     }
 
     public String forSearch(){

@@ -7,5 +7,5 @@ import java.util.List;
  */
 
 public interface AsyncResponse {
-    void processFinish(List<Review> output);
+    void processFinish(List<Restaurant> output);
 }

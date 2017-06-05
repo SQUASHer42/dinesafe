@@ -20,10 +20,13 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingRight="30dp"
+            android:paddingLeft="30dp"
             android:orientation="vertical">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:textSize="30sp"
                 android:textColor="@color/black"
                 android:fontFamily="serif"
@@ -32,9 +35,10 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:textSize="20sp"
                 android:textColor="@color/black"
-                android:id="@+id/coordinates"/>
+                android:id="@+id/address"/>
         </LinearLayout>
         <TextView
             android:layout_width="wrap_content"
@@ -46,35 +50,15 @@
             android:id="@+id/pass"/>
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:textColor="@color/black"
-            android:id="@+id/comment"/>
-    </LinearLayout>
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
-
-            <TextView
-                android:id="@+id/xml"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="visible" />
-
+            android:orientation="vertical"
+            android:id="@+id/reviews">
         </LinearLayout>
-
     </ScrollView>
 
 </LinearLayout>

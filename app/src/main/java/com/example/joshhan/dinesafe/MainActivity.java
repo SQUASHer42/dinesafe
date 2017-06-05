@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -24,6 +25,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
@@ -46,6 +49,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import org.w3c.dom.Text;
 
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Properties;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
@@ -110,18 +115,58 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         TextView name = (TextView)findViewById(R.id.name);
         name.setText(intent.getStringExtra("name"));
         Log.d(TAG, intent.getStringExtra("name"));
-        TextView address = (TextView)findViewById(R.id.coordinates);
+        TextView address = (TextView)findViewById(R.id.address);
         address.setText(intent.getStringExtra("address"));
-        TextView comment = (TextView)findViewById((R.id.comment));
-        comment.setText(intent.getStringExtra("comments"));
 
 
-        if(intent.getStringExtra("severity").toUpperCase().toCharArray()[0] == 'M'){
+        ArrayList<UsefulReview> usefulReviewArrayList = (ArrayList<UsefulReview>) intent.getSerializableExtra("reviews");
+
+        LinearLayout ll = (LinearLayout) findViewById(R.id.reviews);
+        ArrayList<View> results = new ArrayList<View>();
+        if(results != null) {
+            for (int i = 0; i < usefulReviewArrayList.size(); i++) {
+                final TextView v = new TextView(MainActivity.this);
+                final UsefulReview u = usefulReviewArrayList.get(i);
+                v.setText(u.getComments());
+                v.setTextColor(Color.BLACK);
+                try {
+                    if (u.getSeverity().toCharArray()[0] == 'M')
+                        v.setBackground(getDrawable(R.drawable.pass));
+                    else if (u.getSeverity().toCharArray()[0] == 'S')
+                        v.setBackground(getDrawable(R.drawable.closed));
+                    else if (u.getSeverity().toCharArray()[0] == 'N')
+                        v.setBackground(getDrawable(R.drawable.grey));
+                    else{
+                        v.setBackground(getDrawable(R.drawable.back));
+                    }
+                }
+                catch(Exception e) {
+                    v.setBackground(getDrawable(R.drawable.back));
+                }
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                );
+                lp.setMargins(30, 15, 30, 15);
+                v.setLayoutParams(lp);
+                results.add(v);
+                ll.addView(results.get(i));
+            }
+        }
+        else{
+            TextView v = new TextView(MainActivity.this);
+            v.setText("Comments not found");
+            v.setTextColor(Color.BLACK);
+            results.add(v);
+            ll.addView(results.get(0));
+        }
+
+        /**if(intent.getStringExtra("severity").toUpperCase().toCharArray()[0] == 'M'){
             comment.setBackground(getDrawable(R.drawable.pass));
         }
         if(intent.getStringExtra("severity").toUpperCase().toCharArray()[0] == 'S'){
             comment.setBackground(getDrawable(R.drawable.closed));
-        }
+        }**/
 
         Location location = new Location("");
         double latitude = intent.getDoubleExtra("latitude", 0);
