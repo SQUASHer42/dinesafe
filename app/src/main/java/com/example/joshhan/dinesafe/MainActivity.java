@@ -138,10 +138,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         v.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.grey));
                     else{
                         v.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.back));
+                        v.setText(u.getInspectionDate()+ ":\nPass");
                     }
                 }
                 catch(Exception e) {
                     v.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.back));
+                    v.setText(u.getInspectionDate() + ":\nPass");
                 }
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT,

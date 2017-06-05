@@ -6,10 +6,8 @@
         android:icon="@mipmap/ic_search_black_24dp"
         app:showAsAction="collapseActionView|ifRoom"
         app:actionViewClass="android.support.v7.widget.SearchView" />
-    <item android:id="@+id/spinner"
+    <!--<item android:id="@+id/spinner"
         android:title="ID"
         app:showAsAction="always"
-        android:actionViewClass="android.widget.Spinner" />
-
-
+        android:actionViewClass="android.widget.Spinner" />-->
 </menu>

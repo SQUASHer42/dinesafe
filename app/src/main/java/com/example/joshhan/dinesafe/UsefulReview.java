@@ -36,4 +36,8 @@ public class UsefulReview implements Serializable{
     public String getSeverity() {
         return severity;
     }
+
+    public String getInspectionDate(){
+        return inspectionDate;
+    }
 }
