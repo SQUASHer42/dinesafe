@@ -1,5 +1,7 @@
 package com.example.joshhan.dinesafe;
 
+import com.google.android.gms.maps.model.LatLng;
+
 public class Review {
     private int inspectionID;
     private int establishmentID;
@@ -78,6 +80,35 @@ public class Review {
         longitude = Long;
         latitude = Lat;
     }
+
+    public double getLatitude(){
+        return latitude;
+    }
+
+    public double getLongitude(){
+        return longitude;
+    }
+
+    public String getName(){
+        return name + " - " + type + "   ";
+    }
+
+    public String getComments(){
+        return inspectionDate + ": " + infractionDetails + " " +
+                "\n" + "Action: " + action +
+                "\n" + "Fined: $" + String.valueOf(amountFined);
+    }
+
+    public String forSearch(){
+        return address +
+                "\n" + inspectionDate;
+    }
+
+    public String getStatus(){
+        return status;
+    }
+
+    public String getSeverity(){ return  severity;}
 
     @Override
     public String toString() {

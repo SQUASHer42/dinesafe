@@ -5,12 +5,14 @@ import android.app.SearchManager;
 import android.content.ComponentName;
 import android.content.Context;
 
+import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -34,9 +36,14 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+import org.w3c.dom.Text;
 
 import java.io.FileInputStream;
 import java.util.Properties;
@@ -47,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private GoogleApiClient googleApiClient;
     private LocationRequest locationRequest;
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
-
+    private static boolean notIntent = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,39 +68,74 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             googleApiClient = new GoogleApiClient.Builder(this).addConnectionCallbacks(this).addOnConnectionFailedListener(this).addApi(LocationServices.API).build();
         locationRequest = LocationRequest.create().setPriority(locationRequest.PRIORITY_HIGH_ACCURACY).setInterval(10000).setFastestInterval(1000);
 
-        //TODO Fix this
-        /**
-        //if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
-        **/
-
-        //TODO consider initializing locationmanagerthingy here
-
-        //new CloudantHandler().execute();
 
         //new CloudantHandler(cloudantClient, "dinesafe");
-        TextView view = (TextView)findViewById(R.id.coordinates);
+        if(notIntent) {
+            TextView view = (TextView) findViewById(R.id.name);
+            view.setText("Ready   ");
+        }
         //view.setText(r.toString());
 
         Log.d(TAG, "STUPID");
 
-        //view.setText(String.valueOf(db.getClass()));
+        Intent intent = getIntent();
+        if(intent.hasExtra("address")){
+            notIntent = false;
+            Log.d(TAG, "Went through onCreate");
+            onNewIntent(intent);
+        }
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        handleIntent(intent);
+    }
 
+    private void handleIntent(Intent intent){
+        TextView pass = (TextView)findViewById(R.id.pass);
+        pass.setText(intent.getStringExtra("status"));
+
+        if(intent.getStringExtra("status").toUpperCase().equals("PASS")){
+            pass.setBackground(getDrawable(R.drawable.pass));
+        }
+        if(intent.getStringExtra("status").toUpperCase().equals("CONDITIONAL PASS")){
+            pass.setBackground(getDrawable(R.drawable.conditional));
+        }
+        if(intent.getStringExtra("status").toUpperCase().equals("CLOSED")){
+            pass.setBackground(getDrawable(R.drawable.closed));
+        }
+
+
+        TextView name = (TextView)findViewById(R.id.name);
+        name.setText(intent.getStringExtra("name"));
+        Log.d(TAG, intent.getStringExtra("name"));
+        TextView address = (TextView)findViewById(R.id.coordinates);
+        address.setText(intent.getStringExtra("address"));
+        TextView comment = (TextView)findViewById((R.id.comment));
+        comment.setText(intent.getStringExtra("comments"));
+
+
+        if(intent.getStringExtra("severity").toUpperCase().toCharArray()[0] == 'M'){
+            comment.setBackground(getDrawable(R.drawable.pass));
+        }
+        if(intent.getStringExtra("severity").toUpperCase().toCharArray()[0] == 'S'){
+            comment.setBackground(getDrawable(R.drawable.closed));
+        }
+
+        Location location = new Location("");
+        double latitude = intent.getDoubleExtra("latitude", 0);
+        double longitude = intent.getDoubleExtra("longitude", 0);
+        location.setLatitude(longitude);
+        location.setLongitude(latitude);
+        handleLocation(location, intent.getStringExtra("name"));
+
+        Log.d(TAG, "handle intent");
+    }
 
     @Override
     public void onLocationChanged(Location location) {
-        handleLocation(location);
+        handleLocation(location, "You are here");
     }
 
     protected void onStart() {
@@ -126,16 +168,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
+
         try{
             Location lastLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
-            if (lastLocation != null) {
-                handleLocation(lastLocation);
+            if (lastLocation != null && notIntent) {
+                handleLocation(lastLocation, "You are here");
             }
             else {
                 LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
                 //handleLocation(LocationServices.FusedLocationApi.getLastLocation(googleApiClient));
-                lastLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);//TODO handle exception when there isn't a lastLocation --> you have to start the location thing yourself
-                handleLocation(lastLocation);
+                //lastLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);//TODO handle exception when there isn't a lastLocation --> you have to start the location thing yourself
+                //handleLocation(lastLocation);
             }
         }
         catch (SecurityException e){
@@ -143,13 +186,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
-    private void handleLocation(Location location){
-        TextView view = (TextView) findViewById(R.id.coordinates);
-        view.setText(String.valueOf(location.getLatitude()) + ", " + String.valueOf(location.getLongitude()));
+    private void handleLocation(Location location, String description){
+        Log.d(TAG, "handleLocation called");
+        //TextView view = (TextView) findViewById(R.id.coordinates);
+        //view.setText(String.valueOf(location.getLatitude()) + ", " + String.valueOf(location.getLongitude()));
         SupportMapFragment mapFragment = (SupportMapFragment)getSupportFragmentManager().findFragmentById(R.id.map);
-        Pin userLocation = new Pin(location, "You are here", mapFragment, 16);
+        Pin userLocation = new Pin(location, description, mapFragment, 18);
         userLocation.moveTheCamera();
     }
+
 
     @Override
     public void onConnectionSuspended(int i) {

@@ -5,8 +5,8 @@ android {
     buildToolsVersion "25.0.0"
     defaultConfig {
         applicationId "com.example.joshhan.dinesafe"
-        minSdkVersion 18
-        targetSdkVersion 24
+        minSdkVersion 21
+        targetSdkVersion 22
         versionCode 1
         versionName "1.0"
         resValue "string", "google_maps_key",
@@ -32,13 +32,14 @@ dependencies {
     })
     compile group: 'com.cloudant', name: 'cloudant-client', version: '2.9.0'
     compile group: 'com.squareup.okhttp3', name: 'okhttp-urlconnection', version: '3.4.2'
+    compile group: 'com.cloudant', name: 'cloudant-sync-datastore-android', version: 'latest.release'
     compile 'com.google.android.gms:play-services-location:9.0.1'
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.google.android.gms:play-services-maps:9.0.1'
     testCompile 'junit:junit:4.12'
-    compile group: 'com.cloudant', name: 'cloudant-sync-datastore-android', version:'latest.release'
 }
+
 
 
 

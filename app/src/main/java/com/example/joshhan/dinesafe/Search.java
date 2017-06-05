@@ -1,21 +1,16 @@
 package com.example.joshhan.dinesafe;
 
 import android.app.Activity;
-import android.app.ListActivity;
 import android.app.SearchManager;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,15 +47,32 @@ public class Search extends Activity {
 
                     if(output!=null){
                         for(int i = 0; i < output.size();i++){
-                            Review review = output.get(i);
+                            final Review review = output.get(i);
                             Log.d(Search.class.getSimpleName(), review.toString());
                             //message=message+review.toString();
-                            TextView v = new TextView(Search.this);
-                            v.setText(review.toString()+"\n");
+                            final TextView v = new TextView(Search.this);
+                            v.setText(review.forSearch());
                             v.setTextColor(Color.BLACK);
                             v.setBackgroundResource(R.drawable.back);
+                            v.setClickable(true);
+                            View.OnClickListener l = new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Intent intent = new Intent(Search.this, MainActivity.class);
+                                    //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    intent.putExtra("address", review.getAddress());
+                                    intent.putExtra("name", review.getName());
+                                    intent.putExtra("latitude", review.getLatitude());
+                                    intent.putExtra("longitude", review.getLongitude());
+                                    intent.putExtra("comments", review.getComments());
+                                    intent.putExtra("status", review.getStatus());
+                                    intent.putExtra("severity", review.getSeverity());
+                                    startActivity(intent);
+                                }
+                            };
+                            v.setOnClickListener(l);
                             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                                    LinearLayout.LayoutParams.MATCH_PARENT,
                                     LinearLayout.LayoutParams.WRAP_CONTENT
                             );
                             lp.setMargins(50, 15, 50, 15);
