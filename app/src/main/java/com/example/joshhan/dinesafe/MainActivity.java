@@ -127,32 +127,29 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             for (int i = 0; i < usefulReviewArrayList.size(); i++) {
                 final TextView v = new TextView(MainActivity.this);
                 final UsefulReview u = usefulReviewArrayList.get(i);
-                v.setText(u.getComments());
+                if(u.getComments() != null){
+                    v.setText(u.getComments());
+                }
+                else{
+                    v.setText(u.getInspectionDate() + ": Pass");
+                }
                 v.setTextColor(Color.BLACK);
-                try {
-                    if (u.getSeverity().toCharArray()[0] == 'M')
-                        v.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.pass));
-                    else if (u.getSeverity().toCharArray()[0] == 'S')
-                        v.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.closed));
-                    else if (u.getSeverity().toCharArray()[0] == 'N')
-                        v.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.grey));
-                    else{
-                        v.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.back));
-                        v.setText(u.getInspectionDate()+ ":\nPass");
-                    }
+
+                if (u.getStatus().toUpperCase().equals("PASS")) {
+                    v.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.pass));
+                } else if (u.getStatus().toUpperCase().equals("CONDITIONAL PASS")) {
+                    v.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.conditional));
+                } else{
+                    v.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.closed));
                 }
-                catch(Exception e) {
-                    v.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.back));
-                    v.setText(u.getInspectionDate() + ":\nPass");
-                }
-                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT
-                );
-                lp.setMargins(30, 15, 30, 15);
-                v.setLayoutParams(lp);
-                results.add(v);
-                ll.addView(results.get(i));
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            lp.setMargins(30, 15, 30, 15);
+            v.setLayoutParams(lp);
+            results.add(v);
+            ll.addView(results.get(i));
             }
         }
         else{

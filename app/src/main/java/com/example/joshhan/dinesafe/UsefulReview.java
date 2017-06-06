@@ -9,14 +9,16 @@ import java.io.Serializable;
 public class UsefulReview implements Serializable{
     private int inspectionID;
     private String infractionDetails;
+    private String status;
     private String inspectionDate;
     private String severity;
     private String action;
     private String courtOutcome;
     private double amountFined;
 
-    public UsefulReview(int inspectionID, String infractionDetails, String inspectionDate, String severity,
+    public UsefulReview(int inspectionID, String infractionDetails, String status, String inspectionDate, String severity,
                         String action, String courtOutcome, double amountFined) {
+        this.status = status;
         this.inspectionID = inspectionID;
         this.infractionDetails = infractionDetails;
         this.inspectionDate = inspectionDate;
@@ -36,6 +38,8 @@ public class UsefulReview implements Serializable{
     public String getSeverity() {
         return severity;
     }
+
+    public String getStatus(){ return status;}
 
     public String getInspectionDate(){
         return inspectionDate;

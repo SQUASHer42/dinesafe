@@ -34,7 +34,7 @@ public class CloudantHandler extends AsyncTask<String, Void, List<Restaurant>>{
         Log.i(TAG, queries[0]);
         try {
             CloudantClient cloudantClient = ClientBuilder.account(user).username(user).password(password).build();
-            Database db = cloudantClient.database("final", false);
+            Database db = cloudantClient.database("finalwithcoordinates", false);
 
             String selector = String.format("\"selector\": { \"name\": {\"$eq\": \"%s\"}}", queries[0].toUpperCase());
             Log.i(TAG, selector);
