@@ -7,3 +7,6 @@ DineSafeTO is an android app that allows users to query for food inspection data
 
 <h2>UML Class Diagram</h2>
 <a href="https://go.gliffy.com/go/publish/12063896">Link to Gliffy</a>
+
+<h2>Database</h2>
+<a href="https://github.com/alainlou/DineSafeDB">Link to Data Processing and IBM Cloudant Client</a>
